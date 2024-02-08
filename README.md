@@ -16,12 +16,12 @@ These are design limitations that arose because of the benefits that can be gain
 
 **Planned Improvements**
 
-...*_Version 1.0:_ This currently implements a simple version of a matrix class, albeit that it is designed to be highly optimized by compilers.
+*_Version 1.0:_ This currently implements a simple version of a matrix class, albeit that it is designed to be highly optimized by compilers.
 
-...*_Version 2.0:_ The matrix class will implement methods that explicitly utilize SIMD commands, utilizing the OpenMP compiler commands & library.
+*_Version 2.0:_ The matrix class will implement methods that explicitly utilize SIMD commands, utilizing the OpenMP compiler commands & library.
 
-...*_Version 3.0:_ The matrix class will implement methods that explicitly utilize SIMD commands in combination with parallelized code utilizing the OpenMP compiler commands & library.
+*_Version 3.0:_ The matrix class will implement methods that explicitly utilize SIMD commands in combination with parallelized code utilizing the OpenMP compiler commands & library.
 
-...*_Version 4.0:_ The matrix class will implement methods that are offloaded onto the GPU and parallelized using OpenCL (with SIMD).
+*_Version 4.0:_ The matrix class will implement methods that are offloaded onto the GPU and parallelized using OpenCL (with SIMD).
 
-...*_Version (proposed) 5.0:_ The matrix class will implement methods that are parallelized heterogeneously using the GPU and CPU (with SIMD).
+*_Version (proposed) 5.0:_ The matrix class will implement methods that are parallelized heterogeneously using the GPU and CPU (with SIMD).
