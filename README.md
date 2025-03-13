@@ -3,13 +3,13 @@
 **Author:** Sten Healey
 
 ### **Description** 
-This is a header only matrix library. Currently, version 1.0 implements a matrix class that is mathematically and SIMD optimized.
+This is a header only matrix library. Currently, version 1.0 implements a matrix class that is mathematically and SIMD optimized (utilizing AVX2 and FMA).
 
 ### **Key Features/Limitations** 
 
 Please be aware that many operations require the matrices to have their memory orientation configured correctly. Two matrices that have the same memory orientation cannot perform a dot product together. Similarly elementwise addition and subtraction require the memory orientation of the two matrices to be identical. These are design limitations that arose because of the benefits that can be gained from SIMD operations and parallelization which will likely be implemented in a later update.
 
-Thus far testing has revealed a performance imporovment of 5x the default behaviour of C++ for complex scenarios like dot products. There are further mathematical optimizations for divisions by a scalar (the reciprocal is calculated once and then multiplication is performed).
+Thus far testing has revealed a performance improvement of 5x the default behaviour of C++ for complex scenarios like dot products. There are further mathematical optimizations for divisions by a scalar (the reciprocal is calculated once and then multiplication is performed).
 
 ### **Compiling**
 1. Please copy the header Matrix2D_S.h into your project
