@@ -59,7 +59,7 @@ I will likely replace getMatrix() with an operator overload - probably something
 
 ### **Planned Versions - Current Version: 1.0**
 
-- _Version 1.0:_ The matrix class will implement methods that explicitly utilize SIMD commands, utilizing AVX2 and FMA compiler intrinsics.
+- _Version 1.0:_ The matrix class will implement methods that explicitly utilize SIMD commands, utilizing AVX2 and FMA intrinsics.
 
 - _Version 2.0:_ A new matrix class will implement methods that explicitly utilize SIMD commands in combination with parallelized code.
 
