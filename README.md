@@ -39,6 +39,9 @@ int main(){
 }
 ```
 
+### Automated Test Cases
+In each directory I have added corresponding automated unit tests. These are implemented for Microsoft Visual Studio Code so they may require some set up in order to run.
+
 ### **Planned Patches**
 - _Version 1.1:_ I need to fix the memory access issue accessing T** isn't cache friendly and the overhead of missing the cache makes it quicker to implement the matrix with T* and accessing it using something like this:
 
