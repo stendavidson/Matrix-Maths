@@ -33,7 +33,7 @@ int main(){
 
     Matrix2D_S<float> fiveXFive_1(5, 5, HORIZONTAL, 1.0f); // Horizontal memory alignment
     Matrix2D_S<float> fiveXFive_2(5, 1, VERTICAL, 2.0f); // Vertical memory alignment
-    Matrix2D_S<float> output = fiveXFive_1.dot(fiveXFive_2); // Dot product
+    Matrix2D_S<float> output = fiveXFive_1.dot_H(fiveXFive_2); // Dot product
 
     return 0;
 }
