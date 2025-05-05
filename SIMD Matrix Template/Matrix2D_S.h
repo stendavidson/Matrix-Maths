@@ -140,7 +140,7 @@ public:
 	 *
 	 * @param matrix: The matrix being copied
 	 */
-	Matrix2D_S(Matrix2D_S& matrix);
+	Matrix2D_S(const Matrix2D_S& matrix);
 
 	/**
 	 * Constructor - creates a matrix of a given size filled with a single value.
@@ -876,7 +876,7 @@ Matrix2D_S<T>::Matrix2D_S(long rows, long cols, m_orientation orientation) {
 
 
 template<typename T>
-Matrix2D_S<T>::Matrix2D_S(Matrix2D_S& matrix) {
+Matrix2D_S<T>::Matrix2D_S(const Matrix2D_S& matrix) {
 
 	this->rows = matrix.getRows();
 	this->cols = matrix.getCols();
