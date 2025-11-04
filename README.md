@@ -1,15 +1,17 @@
 # Matrix-Maths
 
+**Version:** 1.1
+
 **Author:** Sten Healey
 
 ### **Description** 
-This is a header only matrix library. Currently, version 1.0 implements a matrix class that is mathematically and SIMD optimized (utilizing AVX2 and FMA).
+This is a header only matrix library. It implements a matrix class that is mathematically and SIMD optimized (utilizing AVX2 and FMA). With the latest patch in _version 1.1_ it now utilize a more efficient memory access method that virtualizes a 2D array in a 1D space reducing memory access misses and allowing fully contiguous allocation of memory.
 
 ### **Key Features/Limitations** 
 
 Please be aware that many operations require the matrices to have their memory orientation configured correctly. Two matrices that have the same memory orientation cannot perform a dot product together. Similarly elementwise addition and subtraction require the memory orientation of the two matrices to be identical. These are design limitations that arose because of the benefits that can be gained from SIMD operations and parallelization which will likely be implemented in a later update.
 
-Thus far testing has revealed a performance improvement of 5x the default behaviour of C++ for complex scenarios like dot products. There are further mathematical optimizations for divisions by a scalar (the reciprocal is calculated once and then multiplication is performed).
+Benchmarking on complex operations like the dot product has shown that as the matrix grows in size (more than 2000x2000) it can exceed the performance of a naive implementation by 25-30x. There are further mathematical optimizations for divisions by a scalar (the reciprocal is calculated once and then multiplication is performed).
 
 ### **Compiling**
 1. Please copy the header Matrix2D_S.h into your project
@@ -27,13 +29,32 @@ Thus far testing has revealed a performance improvement of 5x the default behavi
 ### **Example Usage**
 
 ```cpp
-#include "Matrix2D_S.h" // The SIMD Matrix Class
+#include <iostream>
+#include <cstdio>
+#include <stdlib.h>
+#include "Matrix2D_S.h" // SIMD Matrix Class
 
-int main(){
+using namespace std;
 
-    Matrix2D_S<float> fiveXFive_1(5, 5, HORIZONTAL, 1.0f); // Horizontal memory alignment
-    Matrix2D_S<float> fiveXFive_2(5, 1, VERTICAL, 2.0f); // Vertical memory alignment
-    Matrix2D_S<float> output = fiveXFive_1.dot_H(fiveXFive_2); // Dot product
+int main() {
+
+    // Create matrices
+    Matrix2D_S<float> fiveXFive_1(5, 5, M_Orientation::VERTICAL, 4.0f); // Vertically oriented matrix
+    Matrix2D_S<float> fiveXFive_2(5, 1, M_Orientation::HORIZONTAL, 2.0f); // Horizontally oriented matrix
+
+    // Realign memory
+    Matrix2D_S<float> output_1 = fiveXFive_1.realign();
+    Matrix2D_S<float> output_2 = fiveXFive_2.realign();
+
+    // Display the input matrices
+    std::cout << output_1.toString() << std::endl;
+    std::cout << output_2.toString() << std::endl;
+
+    // Perform a dot product
+    Matrix2D_S<float> output_3 = output_1.dot_V(output_2);
+
+    // Display the output
+    std::cout << output_3.toString() << std::endl;
 
     return 0;
 }
@@ -43,24 +64,13 @@ int main(){
 In each directory I have added corresponding automated unit tests. These are implemented for Microsoft Visual Studio Code so they may require some set up in order to run.
 
 ### **Planned Patches**
-- _Version 1.1:_ I need to fix the memory access issue accessing T** isn't cache friendly and the overhead of missing the cache makes it quicker to implement the matrix with T* and accessing it using something like this:
-
-```cpp
-T* matrix = aligned_alloc(32, (row_size + padding) * cols);
-
-for(long i=0; i<rows; i++){
-    for(long j=0; j<cols; j++){
-        matrix[i*(row_size + padding) + j] = 0; // Successfully access memory and when using SIMD steps of 8 or 4 the overhead of the multiplication becomes negligible. 
-    }
-}
-```
-
-I will likely replace getMatrix() with an operator overload - probably something like this: `&T operator[](long a, long b)`. This will help to prevent users from unintentionally accessing padded memory.
+- _Version 1.2:_ I may attempt to implement tiling however this may see diminishing returns given that in order to implement it an additional nested loop is required. However,
+there may be benefits when implementing _version 2.0_ which - depending on benchmarking - could see this patch moved into _version 2.0_.
 
 ### **Planned Versions - Current Version: 1.0**
 
 - _Version 1.0:_ The matrix class will implement methods that explicitly utilize SIMD commands, utilizing AVX2 and FMA intrinsics.
 
-- _Version 2.0:_ A new matrix class will implement methods that explicitly utilize SIMD commands in combination with parallelized code.
+- _Version 2.0:_ A new matrix class will implement methods that explicitly utilize SIMD commands in combination with multi-processing.
 
 - _Version 3.0:_ A new matrix matrix class will implement methods that are offloaded onto the GPU and parallelized using OpenCL.
